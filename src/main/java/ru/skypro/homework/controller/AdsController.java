@@ -48,38 +48,26 @@ public class AdsController {
     }
 
     @SneakyThrows
-    @ExceptionHandler
     @Operation(summary = "addAds", description = "addAds")
-    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AdsDto> addAds(@Parameter(description = "Данные нового объявления")
                                          @RequestPart("image") MultipartFile image,
                                          @Valid @RequestPart("properties") CreateAdsDto dto) {
 
-        Ads ads = adsService.createAds(mapper.toEntity(dto));
-
-        ads.setImage(imagesService.uploadImage(image));
-
-        return ResponseEntity.ok(mapper.toDto(adsService.createAds(ads)));
+        return ResponseEntity.ok(mapper.toDto(adsService.createAds(image, dto)));
     }
 
     @GetMapping(value = "images/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
 
-        Image image = imagesService.getImageById(id);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(image.getImage());
+        return ResponseEntity.ok(imagesService.getImageById(id).getImage());
     }
 
     @Operation(summary = "getAdsMe", description = "getAdsMe")
     @GetMapping("/me")
     public ResponseWrapper<AdsDto> getAdsMe() {
 
-        Collection<Ads> listAds = adsService.getAdsMe();
-
-        return ResponseWrapper.of(mapper.toDto(listAds));
+        return ResponseWrapper.of(mapper.toDto(adsService.getAdsMe()));
     }
 
     @Operation(summary = "removeAds", description = "removeAds")
@@ -105,11 +93,8 @@ public class AdsController {
                                                  @Parameter(description = "Новая картинка")
                                                  @RequestPart(value = "image") @Valid MultipartFile image) {
 
-        Ads ads = adsService.getAdsById(id);
-
-        Ads updatedAds = adsService.updateAdsImage(ads, imagesService.uploadImage(image));
-
-        return ResponseEntity.ok(mapper.toDto(updatedAds));
+        return ResponseEntity.ok(mapper.toDto(adsService.updateAdsImage(
+                adsService.getAdsById(id), imagesService.uploadImage(image))));
     }
 
     @SneakyThrows
@@ -119,21 +104,16 @@ public class AdsController {
                                             @Valid @RequestBody AdsDto updatedAdsDto) {
 
         Ads ads = mapper.toEntity(updatedAdsDto);
-
         ads.setId(id);
 
-        AdsDto updateAdsDto = mapper.toDto(adsService.updateAds(ads));
-
-        return ResponseEntity.ok(updateAdsDto);
+        return ResponseEntity.ok(mapper.toDto(adsService.updateAds(ads)));
     }
 
     @Operation(summary = "getAdsComments", description = "getAdsComments")
     @GetMapping("/{adKey}/comments")
     public ResponseWrapper<AdsCommentDto> getAdsComments(@PathVariable("adKey") int adKey) {
 
-        Collection<AdsComment> list = adsService.getAdsComments(adKey);
-
-        return ResponseWrapper.of(commentMapper.toDto(list));
+        return ResponseWrapper.of(commentMapper.toDto(adsService.getAdsComments(adKey)));
     }
 
     @Operation(summary = "addAdsComments", description = "addAdsComments")
@@ -141,9 +121,7 @@ public class AdsController {
     public AdsCommentDto addAdsComments(@PathVariable("adKey") long adKey,
                                         @Valid @RequestBody AdsCommentDto adsCommentDto) {
 
-        AdsComment adsComment = adsService.addAdsComment(adKey, commentMapper.toEntity(adsCommentDto));
-
-        return commentMapper.toDto(adsComment);
+        return commentMapper.toDto(adsService.addAdsComment(adKey, commentMapper.toEntity(adsCommentDto)));
     }
 
     @Operation(summary = "deleteAdsComment", description = "deleteAdsComment")
@@ -159,9 +137,7 @@ public class AdsController {
     @GetMapping("/{adKey}/comments/{id}")
     public AdsCommentDto getAdsComment(@PathVariable("adKey") int adKey, @PathVariable("id") long id) {
 
-        AdsComment adsComment = adsService.getAdsComment(adKey, id);
-
-        return commentMapper.toDto(adsComment);
+        return commentMapper.toDto(adsService.getAdsComment(adKey, id));
     }
 
     @Operation(summary = "updateAdsComment", description = "updateAdsComment")
@@ -170,10 +146,8 @@ public class AdsController {
                                                           @PathVariable("id") long id,
                                                           @Valid @RequestBody AdsCommentDto updatedAdsCommentDto) {
 
-        AdsComment adsComment = commentMapper.toEntity(updatedAdsCommentDto);
 
-        AdsCommentDto updateAdsCommentDto = commentMapper.toDto(adsService.updateAdsComment(adKey, id, adsComment));
-
-        return ResponseEntity.ok(updateAdsCommentDto);
+        return ResponseEntity.ok(commentMapper.toDto(adsService.updateAdsComment(
+                adKey, id, commentMapper.toEntity(updatedAdsCommentDto))));
     }
 }

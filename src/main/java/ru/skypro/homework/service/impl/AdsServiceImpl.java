@@ -4,16 +4,23 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
+import ru.skypro.homework.dto.CreateAdsDto;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.AdsComment;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
+import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsCommentRepository;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.service.AdsService;
+import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -26,14 +33,21 @@ import static ru.skypro.homework.security.SecurityUtils.*;
 @Service
 public class AdsServiceImpl implements AdsService {
 
+    private final AdsMapper mapper;
+    private final ImageService imagesService;
     private final UserService userService;
 
     private final AdsRepository adsRepository;
 
     private final AdsCommentRepository adsCommentRepository;
 
+    @SneakyThrows
     @Override
-    public Ads createAds(Ads ads) {
+    public Ads createAds(MultipartFile image, CreateAdsDto dto) {
+
+        Ads ads = mapper.toEntity(dto);
+
+        ads.setImage(imagesService.uploadImage(image));
 
         User user = userService.getUserById(getUserIdFromContext());
 
@@ -63,12 +77,7 @@ public class AdsServiceImpl implements AdsService {
 
         checkPermissionToAds(ads);
 
-        List<Long> adsComments = adsCommentRepository.findAll().stream()
-                .filter(adsComment -> adsComment.getAds().getId() == ads.getId())
-                .map(AdsComment::getId)
-                .collect(Collectors.toList());
-
-        adsCommentRepository.deleteAllById(adsComments);
+        adsCommentRepository.deleteAdsCommentsByAdsId(id);
 
         adsRepository.delete(ads);
 

@@ -1,9 +1,13 @@
 package ru.skypro.homework.service;
 
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.CreateAdsDto;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.AdsComment;
 import ru.skypro.homework.entity.Image;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 /**
@@ -14,10 +18,9 @@ public interface AdsService {
     /**
      * Добавление объявления
      *
-     * @param ads Объект объявления
      * @return Ads
      */
-    Ads createAds(Ads ads);
+    Ads createAds(MultipartFile image, CreateAdsDto dto);
 
     /**
      * Получение объявления по ID

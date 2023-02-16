@@ -125,7 +125,7 @@ class AdsControllerTest {
     @WithMockUser(authorities = "ADMIN")
     void addAds() throws Exception {
         doReturn(new Image()).when(imagesService).uploadImage(any());
-        doReturn(new Ads()).when(adsService).createAds(any());
+        doReturn(new Ads()).when(adsService).createAds(any(), any());
 
         byte[] imgStub = new byte[]{1, 0, 1};
         MockMultipartFile mockImage = new MockMultipartFile("image", imgStub);
