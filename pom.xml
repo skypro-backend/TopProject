@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
+        <version>2.7.3</version> <!-- Если нет ограничений, лучше использовать последнюю версию -->
         <relativePath/>
     </parent>
 
@@ -17,7 +17,7 @@
     <description>homework</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>11</java.version> <!-- В README указана 17 Java, а тут стоит 11. Где используется это свойство? -->
 
         <mapstruct.version>1.5.2.Final</mapstruct.version>
     </properties>
@@ -105,7 +105,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>13</source>
+                    <source>13</source> <!-- Здесь указана 13 Java, хотя в properties уже объявлена 11 -->
                     <target>13</target>
                     <annotationProcessorPaths>
                         <path>

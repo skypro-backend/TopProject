@@ -21,6 +21,8 @@ public interface AdsService {
      * @return Ads
      */
     Ads createAds(MultipartFile image, CreateAdsDto dto);
+    // В сервисный слой нельзя передавать DTO, также как нельзя из него отдавать DTO.
+    // Сервисный слой должен быть полностью независим от формата входящих и исходящих данных.
 
     /**
      * Получение объявления по ID
@@ -85,6 +87,7 @@ public interface AdsService {
      * @return Найденный комментарий
      */
     AdsComment getAdsComment(long adKey, long id);
+    // А зачем для получения комментария нужен id объявления? В таблице ads_comment primary key - это id коммента.
 
     /**
      * Удаление комментария по ID
@@ -94,6 +97,7 @@ public interface AdsService {
      * @return Удалённый комментарий
      */
     AdsComment deleteAdsComment(long adKey, long id);
+    // А зачем для удаления комментария нужен id объявления? В таблице ads_comment primary key - это id коммента.
 
     /**
      * Изменение комментария по ID
@@ -104,6 +108,7 @@ public interface AdsService {
      * @return Изменённый комментарий
      */
     AdsComment updateAdsComment(long adKey, long id, AdsComment updateAdsComment);
+    // А зачем для изменения комментария нужен id объявления? В таблице ads_comment primary key - это id коммента.
 
 
     /**

@@ -6,6 +6,7 @@ public final class Regexp {
 
     public static final String PHONE_REGEXP = "\\+7\\d{10}";
 
+    // Лучше юзать аннотацию @UtilityClass у Ломбок
     private Regexp() {
     }
 

@@ -8,6 +8,7 @@ import ru.skypro.homework.entity.AdsComment;
 
 public class SecurityUtils {
 
+    // Лучше юзать аннотацию @UtilityClass у Ломбок
     private SecurityUtils() {
     }
 

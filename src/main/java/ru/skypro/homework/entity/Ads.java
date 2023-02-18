@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Ads {
+public class Ads { // Наверно Ad, в единственном числе
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
