@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
+// Не вижу смысла в этом DTO, можно использовать AdsDto с пустым (null) автором
 public class CreateAdsDto {
 
     @NotBlank

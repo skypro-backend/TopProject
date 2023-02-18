@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AdsComment {
+public class AdsComment { // AdComment скорее всего, в единственном числе
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -49,7 +49,7 @@
 - Клонировать проект в среду разработки
 - Прописать properties в файле **[application.properties](src/main/resources/application.properties)**
 - Запустить **[Docker](https://www.docker.com)**
-- Запустить **[Docker образ](https://drive.google.com/file/d/1ZoGOJaHidywKNYlvNuz6kb0KoGPbeC_b/view)**
+- Запустить **[Docker образ](https://drive.google.com/file/d/1ZoGOJaHidywKNYlvNuz6kb0KoGPbeC_b/view)** // Нет доступа
 - Запустить метод **main** в файле **[HomeworkApplication.java](src/main/java/ru/skypro/homework/HomeworkApplication.java)**
 
 После выполнения всех действий сайт будет доступен по ссылке http://localhost:3000 и Swagger по [ссылке](http://localhost:8080/swagger-ui/index.html#).

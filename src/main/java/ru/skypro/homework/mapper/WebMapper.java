@@ -10,5 +10,5 @@ public interface WebMapper<D, E> {
 
     List<D> toDto(Collection<E> entity);
 
-    List<E> toEntity(Collection<D> dto);
+    List<E> toEntity(Collection<D> dto); // Метод не используется, нужно удалить
 }

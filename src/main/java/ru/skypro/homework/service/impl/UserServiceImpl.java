@@ -27,6 +27,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserDetailsServiceImpl userDetailsService;
+    // Для типов полей используем интерфейсы, а не имплементации
+    // В идеале должно быть два поля: один с UserDetailsService, второй с UserDetailsPasswordService
+    // Не факт, что всегда это будет один и тот же класс
 
     private final PasswordEncoder passwordEncoder;
 
@@ -71,6 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    // названия методов всегда начинаются с глагола
     public void newPassword(String newPassword, String currentPassword) {
 
         UserDetails userDetails = getUserDetailsFromContext();

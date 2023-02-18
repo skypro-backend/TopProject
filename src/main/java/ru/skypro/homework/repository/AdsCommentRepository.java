@@ -13,6 +13,7 @@ public interface AdsCommentRepository extends JpaRepository<AdsComment, Long> {
     Collection<AdsComment> findAllByAdsId(long adsId);
 
     Optional<AdsComment> findByIdAndAdsId(long id, long adsId);
+    // По id коммента и так можно найти коммент, id объявления не нужно
 
     @Modifying
     @Query("delete AdsComment a where a.ads_id =: id")

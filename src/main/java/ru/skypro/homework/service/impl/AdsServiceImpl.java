@@ -34,6 +34,10 @@ import static ru.skypro.homework.security.SecurityUtils.*;
 public class AdsServiceImpl implements AdsService {
 
     private final AdsMapper mapper;
+    // В сервисах не должно быть мапперов.
+    // Сервисы не должны зависеть от формата данных внешних систем.
+    // Сервисы должны отправлять и получать сущности
+
     private final ImageService imagesService;
     private final UserService userService;
 
